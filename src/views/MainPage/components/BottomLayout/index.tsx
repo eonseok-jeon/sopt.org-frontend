@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { RefObject, useRef } from 'react';
 import useInView from '@src/hooks/useInView';
+import { LatestNewsType, PartIntroType } from '@src/lib/types/admin';
 import ActivitySection from '@src/views/MainPage/components/ActivitySection';
 import RecentNews from '@src/views/MainPage/components/RecentNews';
 import RecruitMessage from '@src/views/MainPage/components/RecruitMessage';
@@ -18,7 +19,22 @@ export type RefHandler = {
   targetRef: RefObject<HTMLDivElement>;
 };
 
-function BottomLayout() {
+interface BottomLayoutProps {
+  generation: number;
+  partIntroduction: PartIntroType[];
+  latestNews: LatestNewsType[];
+  mainColor: string;
+  highColor: string;
+  ctaText: string;
+}
+function BottomLayout({
+  generation,
+  partIntroduction,
+  latestNews,
+  mainColor,
+  highColor,
+  ctaText,
+}: BottomLayoutProps) {
   const activity = useInView();
   const part = useInView();
   const team = useInView();
@@ -57,13 +73,19 @@ function BottomLayout() {
             partInView={part}
             teamInView={team}
             reviewInView={review}
+            partIntroduction={partIntroduction}
           />
         </S.Layout>
       </S.Wrapper>
       <div ref={targetRef} />
       <motion.div style={{ backgroundColor: wrapperBackground }}>
-        <RecentNews />
-        <RecruitMessage />
+        <RecentNews latestNews={latestNews} />
+        <RecruitMessage
+          generation={generation}
+          mainColor={mainColor}
+          highColor={highColor}
+          ctaText={ctaText}
+        />
       </motion.div>
     </>
   );

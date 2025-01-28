@@ -1,31 +1,31 @@
-import { AboutInfoType } from '@src/lib/types/about';
 import RecordItem from '../Item';
 import * as St from './style';
 
-type RecordListProps = Pick<AboutInfoType, 'records'>;
-
-const RecordList = (props: RecordListProps) => {
+const RecordList = ({
+  activitiesRecords: { activitiesMemberCount, projectCounts, studyCounts },
+}: {
+  activitiesRecords: {
+    activitiesMemberCount: number;
+    projectCounts: number;
+    studyCounts: number;
+  };
+}) => {
   return (
     <St.Wrapper>
       <RecordItem
         type="block"
         title="활동 멤버"
-        countNumber={props.records.memberCount}
+        countNumber={activitiesMemberCount}
         countString="명"
       />
       <RecordItem
         type="link"
         title="프로젝트"
-        countNumber={props.records.projectCount !== 0 ? props.records.projectCount : undefined}
-        countString={props.records.projectCount !== 0 ? '개' : '진행중'}
+        countNumber={projectCounts !== 0 ? projectCounts : undefined}
+        countString={projectCounts !== 0 ? '개' : '진행중'}
         href="/project"
       />
-      <RecordItem
-        type="block"
-        title="스터디"
-        countNumber={props.records.studyCount}
-        countString="개"
-      />
+      <RecordItem type="block" title="스터디" countNumber={studyCounts} countString="개" />
     </St.Wrapper>
   );
 };
